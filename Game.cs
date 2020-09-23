@@ -14,10 +14,11 @@ namespace HelloWorld
     {
         private Player _player;
         private Shop _shop;
-        private bool _gameOver;
+        private bool _gameOver = false;
         private Item _gun;
         private Item _bow;
         private Item _bullet;
+        private Item[] _shopInventory;
         //Run the game
         public void Run()
         {
@@ -30,6 +31,8 @@ namespace HelloWorld
             End();
         }
 
+        
+        //easy way to get player input
         public void GetInput(out char input, string option1, string option2, string option3, string query)
         {
             input = ' ';
@@ -51,12 +54,16 @@ namespace HelloWorld
             }
         }
 
-        public Item[] PrintInventory()
+       //prints the inventory for the shop
+        public void PrintInventory(Item[] inventory)
         {
-            _player.GetInventory();
-
+            for(int i = 0; i < inventory.Length; i++)
+            {
+                Console.WriteLine();
+            }
         }
 
+        //initializes the prices for the shop
         public void InializePrices()
         {
             _gun.cost = 50;
@@ -67,28 +74,14 @@ namespace HelloWorld
             _bullet.name = "Bullet";
         }
 
+        //menu for the shop
         public void OpenShopMenu()
         {
-            char input = ' ';
-            input = Console.ReadKey().KeyChar;
-            GetInput(out input, _gun.name, _bow.name, _bullet.name, "what're ya buying?");
-            if(input == '1')
-            {
-                _player.Buy(_gun, 0);
-                _shop.Sell(_player, 0, 0);
-            }
-            else if(input == '2')
-            {
-                _player.Buy(_bow, 1);
-                _shop.Sell(_player, 1, 1);
-            }
-            else if(input == '3')
-            {
-                _player.Buy(_bullet, 2);
-                _shop.Sell(_player, 2, 2);
-            }
-            
+            Console.WriteLine("What're ya buying?");
+            PrintInventory(_shopInventory);
         }
+
+        //sends spent shop items to the player inventory
         public void SendToInventory(Player player)
         {
             Item[] inventory = player.GetInventory();
@@ -104,38 +97,42 @@ namespace HelloWorld
             {
                 case '1':
                     {
-                        
+                        Console.WriteLine("1." + 0);
                         player.KeepItem(0);
                         break;
                     }
                 case '2':
                     {
+                        Console.WriteLine("2." + 1);
                         player.KeepItem(1);
                         break;
                     }
                 case '3':
                     {
+                        Console.WriteLine("3." + 2);
                         player.KeepItem(2);
                         break;
                     }
 
             }
         }
-        public void AddPurchase(Shop item, Player player)
-        {
-            player.InitalizePlayer();
-        }
+
+
+        
 
         //Performed once when the game begins
         public void Start()
         {
-            _player.InitalizePlayer();
+            _player = new Player();
+            _player.InitalizePlayer(ref _player);
+            _shop = new Shop();
             InializePrices();
         }
 
         //Repeated until the game ends
         public void Update()
         {
+            OpenShopMenu();
             SendToInventory(_player);
         }
 

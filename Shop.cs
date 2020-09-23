@@ -7,7 +7,6 @@ namespace HelloWorld
     class Shop
     {
         private int _coin;
-        public Shop _name;
         private Item[] inventory;
 
         public Shop()

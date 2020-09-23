@@ -7,7 +7,6 @@ namespace HelloWorld
     class Player
     {
         private int _coin;
-        public Player _name;
         private Item[] _inventory;
         private Item _currentItem;
 
@@ -16,8 +15,9 @@ namespace HelloWorld
             _inventory = new Item[3];
             _coin = 150;
         }
-        public void InitalizePlayer()
+        public void InitalizePlayer(ref Player player)
         {
+            _inventory = new Item[3];
             _coin = 150;
         }
 
@@ -43,6 +43,7 @@ namespace HelloWorld
             _inventory[index] = item;
         }
 
+        
         public void KeepItem(int itemIndex)
         {
             if (Contains(itemIndex))
